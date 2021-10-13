@@ -5,8 +5,7 @@ import java.time.LocalDateTime;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -20,7 +19,6 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 @Entity
 public class TripBooking {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int tripBookingId;
 	
 	@OneToOne(cascade = CascadeType.ALL)

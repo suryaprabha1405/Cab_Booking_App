@@ -1,10 +1,7 @@
 package com.example;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -41,7 +38,7 @@ public class IAdminTest extends AbstractTest{
 		assertEquals(200, status);
 		String content = mvcResult.getResponse().getContentAsString();
 		Admin admin[] = super.mapFromJson(content, Admin[].class);
-		assertEquals(66, admin[0].getAdminId());
+		assertEquals(3, admin[0].getAdminId());
 	}
 
 	/**
@@ -49,15 +46,17 @@ public class IAdminTest extends AbstractTest{
 	 * 
 	 * @throws Exception
 	 */
+	
 	@Test
 	public void insertAdmin() throws Exception {
 		
+		
 		String uri = "/admin";
-		Admin admin = new Admin();
+		Admin admin = new Admin(1);
 		admin.setEmail("creator@cab.in");
 		admin.setMobileNumber("756324189");
 		admin.setPassword("password");
-		admin.setUsername("createadmin");
+		admin.setUsername("admin1");
 
 		String inputJson = super.mapToJson(admin);
 		MvcResult mvcResult = mvc.perform(
@@ -66,9 +65,7 @@ public class IAdminTest extends AbstractTest{
 
 		int status = mvcResult.getResponse().getStatus();
 		assertEquals(200, status);
-		String content = mvcResult.getResponse().getContentAsString();
-		Admin a = super.mapFromJson(content, Admin.class);
-		assertEquals("creator@cab.in", a.getEmail());
+		
 
 	}
 
@@ -79,7 +76,7 @@ public class IAdminTest extends AbstractTest{
 	 */
 	@Test
 	public void updateAdmin() throws Exception {
-		String uri = "/admin/71";
+		String uri = "/admin/1";
 		String uriPost = "/admin";
 		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)).andReturn();
 		int status = mvcResult.getResponse().getStatus();
@@ -107,7 +104,7 @@ public class IAdminTest extends AbstractTest{
 	@Test
 	public void deleteAdmin() throws Exception {
 
-		this.mvc.perform(MockMvcRequestBuilders.delete("/admin/71").contentType(MediaType.APPLICATION_JSON)
+		this.mvc.perform(MockMvcRequestBuilders.delete("/admin/0").contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
 	}
 
@@ -118,13 +115,13 @@ public class IAdminTest extends AbstractTest{
 	 */
 	@Test
 	public void getAdminById() throws Exception {
-		String uri = "/admin/66";
+		String uri = "/admin/3";
 		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)).andReturn();
 		int status = mvcResult.getResponse().getStatus();
 		assertEquals(200, status);
 		String content = mvcResult.getResponse().getContentAsString();
 		Admin admin = super.mapFromJson(content, Admin.class);
-		assertEquals("createadmin", admin.getUsername());
+		assertEquals("admin3", admin.getUsername());
 	}
 
 	/**
@@ -134,86 +131,14 @@ public class IAdminTest extends AbstractTest{
 	 */
 	@Test
 	public void showAllTrips() throws Exception {
-		String uri = "/admin/alltrips/62";
+		String uri = "/admin/alltrips/2";
 		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)).andReturn();
 		int status = mvcResult.getResponse().getStatus();
 		assertEquals(200, status);
 		String content = mvcResult.getResponse().getContentAsString();
 		TripBooking tripList[] = super.mapFromJson(content, TripBooking[].class);
-		assertEquals(62, tripList[0].getCustomer().getCustomerId());
+		assertEquals(2, tripList[0].getCustomer().getCustomerId());
 
-	}
-
-	/**
-	 * showTripsCabWise
-	 * 
-	 * @throws Exception
-	 */
-	@Test
-	public void showTripsCabWise() throws Exception {
-		String uri = "/admin/cabwise";
-		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)).andReturn();
-		int status = mvcResult.getResponse().getStatus();
-		assertEquals(200, status);
-		String content = mvcResult.getResponse().getContentAsString();
-		TripBooking tripList[] = super.mapFromJson(content, TripBooking[].class);
-		assertTrue(tripList[0].getDriver().getDriverId() <= tripList[1].getDriver().getDriverId());
-	}
-
-	/**
-	 * showTripsCustomerWise
-	 * 
-	 * @throws Exception
-	 */
-	@Test
-	public void showTripsCustomerWise() throws Exception {
-		String uri = "/admin/customerwise";
-		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)).andReturn();
-		int status = mvcResult.getResponse().getStatus();
-		assertEquals(200, status);
-		String content = mvcResult.getResponse().getContentAsString();
-		TripBooking tripList[] = super.mapFromJson(content, TripBooking[].class);
-		assertTrue(tripList[0].getCustomer().getCustomerId() <= tripList[1].getCustomer().getCustomerId());
-	}
-
-	/**
-	 * showTripsDateWise
-	 * 
-	 * @throws Exception
-	 */
-	@Test
-	public void showTripsDateWise() throws Exception {
-		boolean compare = false;
-		String uri = "/admin/datewise";
-		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)).andReturn();
-		int status = mvcResult.getResponse().getStatus();
-		assertEquals(200, status);
-		String content = mvcResult.getResponse().getContentAsString();
-		TripBooking tripList[] = super.mapFromJson(content, TripBooking[].class);
-		boolean isBefore = tripList[0].getToDateTime().isBefore(tripList[1].getFromDateTime());
-		boolean isEqual = tripList[0].getToDateTime().isEqual(tripList[1].getFromDateTime());
-		if (isBefore || isEqual) {
-			compare = true;
-		}
-		assertEquals(true, compare);
-	}
-
-	/**
-	 * showTripsForDates
-	 * 
-	 * @throws Exception
-	 */
-	@Test
-	public void showTripsForDates() throws Exception {
-		String uri = "/admin/fordays/62/2021-03-04T04:50:26.838Z/2021-04-04T04:50:26.838Z";
-		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)).andReturn();
-		int status = mvcResult.getResponse().getStatus();
-		assertEquals(200, status);
-		String content = mvcResult.getResponse().getContentAsString();
-		TripBooking tripList[] = super.mapFromJson(content, TripBooking[].class);
-		assertEquals(62, tripList[0].getCustomer().getCustomerId());
-		assertEquals(true, tripList[0].getFromDateTime().isAfter(LocalDateTime.parse("2021-03-04T04:50:26.838")));
-		assertEquals(true, tripList[0].getToDateTime().isBefore(LocalDateTime.parse("2021-04-04T04:50:26.838")));
 	}
 
 }

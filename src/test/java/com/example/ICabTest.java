@@ -3,6 +3,7 @@ package com.example;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -26,45 +27,6 @@ public class ICabTest extends AbstractTest{
 	}
 
 	/**
-	 * createCab
-	 * 
-	 * @throws Exception
-	 */
-	@Test
-	public void createCab() throws Exception {
-		String uri = "/cab";
-		Cab cab = new Cab(222, "SuperXL", 450);
-		String inputJson = super.mapToJson(cab);
-		MvcResult mvcResult = mvc
-				.perform(
-						MockMvcRequestBuilders.post(uri).contentType(MediaType.APPLICATION_JSON).contentType(inputJson))
-				.andReturn();
-		int status = mvcResult.getResponse().getStatus();
-		assertEquals(200, status);
-		String content = mvcResult.getResponse().getContentAsString();
-		Cab c = super.mapFromJson(content, Cab.class);
-		assertEquals("SuperXL", c.getPerKmRate());
-
-	}
-
-	/**
-	 * getCabType
-	 * 
-	 * @throws Exception
-	 */
-	@Test
-	public void getCabType() throws Exception {
-		String uri = "/cab/type/SuperXL";
-		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)).andReturn();
-		int status = mvcResult.getResponse().getStatus();
-		assertEquals(200, status);
-		String content = mvcResult.getResponse().getContentAsString();
-		Cab cabList[] = super.mapFromJson(content, Cab[].class);
-		assertEquals("SuperXL", cabList[cabList.length - 1].getCarType());
-
-	}
-
-	/**
 	 * deleteCab
 	 * 
 	 * @throws Exception
@@ -81,31 +43,17 @@ public class ICabTest extends AbstractTest{
 	 * 
 	 * @throws Exception
 	 */
-	@Test
-	public void countCabsByType() throws Exception {
-		String uri = "/cab/type/SUV";
-		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)).andReturn();
-		int status = mvcResult.getResponse().getStatus();
-		assertEquals(200, status);
-		String content = mvcResult.getResponse().getContentAsString();
-		Cab cabList[] = super.mapFromJson(content, Cab[].class);
-		assertEquals(3, cabList.length);
-	}
-
-	/**
-	 * getCabById
-	 * 
-	 * @throws Exception
-	 */
+	
 	@Test
 	public void getCabById() throws Exception {
-		String uri = "/cab/20";
+		String uri = "/cab/9";
 		MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)).andReturn();
 		int status = mvcResult.getResponse().getStatus();
 		assertEquals(200, status);
 		String content = mvcResult.getResponse().getContentAsString();
 		Cab cab = super.mapFromJson(content, Cab.class);
-		assertEquals("SuperXL", cab.getCarType());
+		assertEquals("PrimeSUV", cab.getCarType());
 
 	}
+	
 }

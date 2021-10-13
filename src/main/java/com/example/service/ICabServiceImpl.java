@@ -21,8 +21,8 @@ public class ICabServiceImpl implements ICabService {
 
 	@Override
 	public Cab insertCab(Cab cab) {
-		cabDao.saveAndFlush(cab);
-		return cab;
+		return cabDao.save(cab);
+
 	}
 
 	/**
