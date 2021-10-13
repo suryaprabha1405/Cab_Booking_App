@@ -32,4 +32,4 @@ spec:
                 configMapKeyRef:
                   name: hostname-config
                   key: postgres_host
-          image: nlsnraja/nurseryk8s
+          image: snehasurve/dockerimage
