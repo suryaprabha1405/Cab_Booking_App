@@ -7,7 +7,6 @@ import javax.persistence.Id;
 public class Admin extends AbstractUser {
 	@Id
 	private int adminId;
-
 	public Admin() {
 
 	}

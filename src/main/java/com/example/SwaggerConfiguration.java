@@ -5,7 +5,7 @@ import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
+//import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 
@@ -23,7 +23,7 @@ public class SwaggerConfiguration {
 	public ApiInfo apiEndPointInfo() {
 		return new ApiInfoBuilder().title("Cab_Booking_App")
 				.description("Cab Booking")
-				.contact(new Contact("Project","https://project.com","suryaprabharv@gmail.com"))
+				//.contact(new Contact("Project","https://project.com","suryaprabharv@gmail.com"))
 				.licenseUrl("http://www.apache.org/licenses/LICENCE-2.0.html")
 				.version("0.0.1-SNAPSHOT")
 				.build();
